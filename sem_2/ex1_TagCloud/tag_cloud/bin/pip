@@ -1,0 +1,11 @@
+#!/home/lorcan/prog_uni/sem_2/ex1_TagCloud/tag_cloud/bin/python
+
+# -*- coding: utf-8 -*-
+import re
+import sys
+
+from pip import main
+
+if __name__ == '__main__':
+    sys.argv[0] = re.sub(r'(-script\.pyw|\.exe)?$', '', sys.argv[0])
+    sys.exit(main())
