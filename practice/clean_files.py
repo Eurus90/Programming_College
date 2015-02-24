@@ -7,8 +7,12 @@ def main():
         dir_path = input("Please input the dir :  ")
         os.chdir(dir_path)
 
-        fold_ls = []
-        fold_ls = os.listdir()
+        file_ls = []
+        file_ls = os.listdir()
+
+        print(file_ls)
+
+
 
     except OSError as e:
         print(e)
