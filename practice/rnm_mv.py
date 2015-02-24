@@ -16,9 +16,12 @@ def main():
         mov_name = []
         mov_name = os.listdir()
 
+        count = 0
+
         for name in mov_name:
+            count += 1
             # print the org file name
-            print("\n************************\n\n", name, "\n")
+            print("\n\n****************************************************\n\n", name, "          ", count, " of ", len(mov_name), "\n\n")
 
             # ask the user if they would like to change the org name
             yes_no = input("Rename the file [ 'y' ( YES ) / 'n' ( NO ) / 'c' ( CLOSE )] :  ")

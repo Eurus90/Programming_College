@@ -64,7 +64,13 @@ def main():
                 word = word.strip()
                 word_rm_ls.append(word)
 
+        skip_count = 0
+        skip_ls = []
+
+        tot_count = 0
+
         for name in mov_name:
+            tot_count += 1
             nameof = name
             # if YIFY is in the movie filename exe func yify
             if nameof.find(".YIFY") != -1:
@@ -74,13 +80,19 @@ def main():
             elif (nameof[-1] in ext_ls) and (nameof.find(" ") != -1):
                 new_name = aviMKVmp4(nameof)
 
+            # count the number of files not changed and list the names
             else:
+                skip_count += 1
+                skip_ls.append(str(tot_count) + '.   ' + nameof)
                 continue
 
             print('\n****************************************\n\n\nName changed from [***|||   ', nameof, '   |||***] to  :  ')
             # rename the file
             os.rename(nameof, new_name)
             print('\n\n', new_name, '\n')
+
+        for title in skip_ls:
+            print("\n", title)
 
     except OSError as e:
         print(e)
