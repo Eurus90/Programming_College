@@ -18,7 +18,7 @@ def main():
 
         for name in mov_name:
             # print the org file name
-            print("\n", name, "\n")
+            print("\n************************\n\n", name, "\n")
 
             # ask the user if they would like to change the org name
             yes_no = input("Rename the file [ 'y' ( YES ) / 'n' ( NO ) / 'c' ( CLOSE )] :  ")
