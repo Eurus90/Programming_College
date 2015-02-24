@@ -7,6 +7,8 @@ import string
 
 
 def yify(movie_title, bad_words):
+    '''takes YIFY movie file names and shortens them to title and quality'''
+
     # split the name into seperate words
     line_list = movie_title.split(".")
     word_list = []
@@ -29,7 +31,9 @@ def yify(movie_title, bad_words):
     return sexy_name
 
 
-def avi(name_of):
+def aviMKVmp4(name_of):
+    '''takes all the other movies and replaces the white space with _'''
+
     # replace spaces with _
     sexy_name = name_of.replace(" ", "_")
 
@@ -45,9 +49,13 @@ def main():
         # make list of the movie names
         mov_name = []
         mov_name = os.listdir()
+
         # make a list of words i don't want in the name from this text file
         word_rm = open('/home/lorcan/RENAME/word_rm.txt', 'r')
         word_rm_ls = []
+
+        # make list of last letters to id file extension
+        ext_ls = ['i', 'v', '4', 's']
 
         # making the list of words to be removed
         for line in word_rm:
@@ -58,11 +66,13 @@ def main():
 
         for name in mov_name:
             nameof = name
+            # if YIFY is in the movie filename exe func yify
             if nameof.find(".YIFY") != -1:
                 new_name = yify(nameof, word_rm_ls)
 
-            elif (nameof[-1] == "i") and (nameof.find(" ") != -1):
-                new_name = avi(nameof)
+            # if the last letter of the filename is in the ext_ls and there are spaces exe func aviMKVmp4
+            elif (nameof[-1] in ext_ls) and (nameof.find(" ") != -1):
+                new_name = aviMKVmp4(nameof)
 
             else:
                 continue
