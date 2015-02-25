@@ -17,14 +17,18 @@ def main():
             fold_nm = name
             newdir = str(orgdir + '/' + fold_nm)
             print(newdir)
-            os.chdir(newdir)
-            newfl_ls = []
-            newfl_ls = os.listdir()
-            for fl_nm in newfl_ls:
-                if fl_nm[-1] in ext_ls:
-                    os.rename(newdir + '/' + fl_nm, orgdir + fl_nm)
-                else:
-                    continue
+            try:
+                os.chdir(newdir)
+                newfl_ls = []
+                newfl_ls = os.listdir()
+                for fl_nm in newfl_ls:
+                    if fl_nm[-1] in ext_ls:
+                        os.rename(newdir + '/' + fl_nm, orgdir + '/' + fl_nm)
+                    else:
+                        continue
+
+            except OSError as E:
+                continue
 
     except OSError as e:
         print(e)

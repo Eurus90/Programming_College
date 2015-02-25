@@ -11,6 +11,7 @@ def main():
         file_ls = os.listdir()
 
         print(file_ls)
+        ext_ls = ['i', 'v', '4']
 
         for name in file_ls:
             fold_nm = name
@@ -20,7 +21,10 @@ def main():
             newfl_ls = []
             newfl_ls = os.listdir()
             for fl_nm in newfl_ls:
-                if
+                if fl_nm[-1] in ext_ls:
+                    os.rename(newdir + '/' + fl_nm, orgdir + fl_nm)
+                else:
+                    continue
 
     except OSError as e:
         print(e)
