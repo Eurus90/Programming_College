@@ -4,11 +4,23 @@ import string
 
 def main():
     try:
-        dir_path = input("Please input the dir :  ")
-        os.chdir(dir_path)
+        orgdir = input("Please input the dir :  ")
+        os.chdir(orgdir)
 
-        fold_ls = []
-        fold_ls = os.listdir()
+        file_ls = []
+        file_ls = os.listdir()
+
+        print(file_ls)
+
+        for name in file_ls:
+            fold_nm = name
+            newdir = str(orgdir + '/' + fold_nm)
+            print(newdir)
+            os.chdir(newdir)
+            newfl_ls = []
+            newfl_ls = os.listdir()
+            for fl_nm in newfl_ls:
+                if
 
     except OSError as e:
         print(e)
