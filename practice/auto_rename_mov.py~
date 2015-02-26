@@ -12,21 +12,20 @@ def yify(movie_title, bad_words):
     # split the name into seperate words
     line_list = movie_title.split(".")
     word_list = []
-    # only want to change the names for YiFY Movies
-    if 'YIFY' in line_list:
-        for word in line_list:
-            # only keep the words i want (the actual name and the quality)
-            if word in bad_words:
-                pass
-            elif word.isdigit() is True:
-                pass
-            else:
-                word_list.append(word)
 
-        # take the words in the list of words kept and join them with an _
-        short_name = '_'.join(word_list)
-        # add the file extension to the end
-        sexy_name = (short_name + '.mp4')
+    for word in line_list:
+        # only keep the words i want (the actual name and the quality)
+        if word in bad_words:
+            pass
+        elif word.isdigit() is True:
+            pass
+        else:
+            word_list.append(word)
+
+    # take the words in the list of words kept and join them with an _
+    short_name = '_'.join(word_list)
+    # add the file extension to the end
+    sexy_name = (short_name + '.mp4')
 
     return sexy_name
 
@@ -87,15 +86,16 @@ def main():
                 continue
 
             print('\n****************************************\n\n')
-            print('FROM  :\n')
-            print(nameof, '\n\n')
-            print('  TO  :\n')
+            print('FROM  :\n\n')
+            print(nameof, '\n\n\n\n')
+            print('TO  :\n\n')
             # rename the file
             os.rename(nameof, new_name)
-            print(new_name, '\n\n')
+            print(new_name, '\n\n\n\n')
 
         for title in skip_ls:
             print("\n", title)
+        print('SKIPPED : ', skip_count)
 
     except OSError as e:
         print(e)

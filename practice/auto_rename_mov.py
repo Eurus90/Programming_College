@@ -12,21 +12,20 @@ def yify(movie_title, bad_words):
     # split the name into seperate words
     line_list = movie_title.split(".")
     word_list = []
-    # only want to change the names for YiFY Movies
-    if 'YIFY' in line_list:
-        for word in line_list:
-            # only keep the words i want (the actual name and the quality)
-            if word in bad_words:
-                pass
-            elif word.isdigit() is True:
-                pass
-            else:
-                word_list.append(word)
 
-        # take the words in the list of words kept and join them with an _
-        short_name = '_'.join(word_list)
-        # add the file extension to the end
-        sexy_name = (short_name + '.mp4')
+    for word in line_list:
+        # only keep the words i want (the actual name and the quality)
+        if word in bad_words:
+            pass
+        elif word.isdigit() is True:
+            pass
+        else:
+            word_list.append(word)
+
+    # take the words in the list of words kept and join them with an _
+    short_name = '_'.join(word_list)
+    # add the file extension to the end
+    sexy_name = (short_name + '.mp4')
 
     return sexy_name
 
@@ -51,7 +50,7 @@ def main():
         mov_name = os.listdir()
 
         # make a list of words i don't want in the name from this text file
-        word_rm = open('/home/lorcan/RENAME/word_rm.txt', 'r')
+        word_rm = open('/home/lorcan/prog_uni/practice/word_rm.txt', 'r')
         word_rm_ls = []
 
         # make list of last letters to id file extension
@@ -96,6 +95,7 @@ def main():
 
         for title in skip_ls:
             print("\n", title)
+        print('SKIPPED : ', skip_count)
 
     except OSError as e:
         print(e)
