@@ -86,10 +86,13 @@ def main():
                 skip_ls.append(str(tot_count) + '.   ' + nameof)
                 continue
 
-            print('\n****************************************\n\n\nName changed from [***|||   ', nameof, '   |||***] to  :  ')
+            print('\n****************************************\n\n')
+            print('FROM  :\n\n')
+            print(nameof, '\n\n\n\n')
+            print('TO  :\n\n')
             # rename the file
             os.rename(nameof, new_name)
-            print('\n\n', new_name, '\n')
+            print(new_name, '\n\n\n\n')
 
         for title in skip_ls:
             print("\n", title)

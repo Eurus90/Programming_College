@@ -1,5 +1,6 @@
 import os
 import string
+import shutil
 
 
 def main():
@@ -22,7 +23,11 @@ def main():
                 for fl_nm in newfl_ls:
                     if fl_nm[-1] in ext_ls:
                         os.rename(newdir + '/' + fl_nm, orgdir + '/' + fl_nm)
-                        print('\n\n-- ', fl_nm, '\n\n FROM  :', newdir, '\n\n   TO  :', orgdir, '\n\n')
+                        shutil.rmtree(newdir)
+                        print('\n\n-------:', fl_nm)
+                        print('\n FROM  :', newdir)
+                        print('\n   TO  :', orgdir)
+                        print('\nDELETED:', newdir, '\n\n')
                     else:
                         continue
 
