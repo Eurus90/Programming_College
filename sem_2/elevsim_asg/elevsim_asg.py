@@ -34,11 +34,28 @@ PROJECT DESCRIPTION / SPECIFICATION:
 
 class Building:
 
-    def __init__(self, floors, customers):
-        pass
+    def __init__(self, floors, customers, floor_ls=[], floors_ls=[]):
+
+        self.floors = floors
+        self.customers = customers
+        self.floor_ls = floor_ls
+        self.floors_ls = floors_ls
+        for i in range(10):
+            floor_ls.append('*')
+        for i in range(10):
+            floor_ls.append('_')
+        for i in range(self.floors):
+            self.floors_ls.append(self.floor_ls)
 
     def __str__(self):
-        pass
+
+        floor_rep = ''
+        for i in (self.floors_ls):
+            for j in (self.floor_ls):
+                floor_rep += j
+            floor_rep += '\n'
+
+        return floor_rep
 
     def __repr__(self):
         pass
@@ -58,6 +75,7 @@ def main():
     customers = int(input('Please input the number of customers: '))
 
     build = Building(floors, customers)
+    print(build)
 
 if __name__ == '__main__':
     main()
