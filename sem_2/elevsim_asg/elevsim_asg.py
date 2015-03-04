@@ -40,24 +40,34 @@ class Building:
         self.customers = customers
         self.floor_ls = floor_ls
         self.floors_ls = floors_ls
-        # for i in range(10):
-        #     floor_ls.append('*')
-        # for i in range(10):
-        #     floor_ls.append('_')
 
     def run(self):
 
-        for i in range(self.floors):
-            self.floor_ls = ['*']*10 + ['_']*10
-            self.floors_ls.append(self.floor_ls)
+        Elev = Elevator(self.floors)
+        cnt = 0
+        while cnt <= (self.floors + 20):
 
-        print(self)
+            cnt += 1
+            self.floors_ls = []
+
+            for i in range(self.floors):
+
+                if i == Elev.current_floor:
+                    self.floor_ls = ['e']*10 + ['_']*10
+                    self.floors_ls.append(self.floor_ls)
+                else:
+                    self.floor_ls = ['*']*10 + ['_']*10
+                    self.floors_ls.append(self.floor_ls)
+
+            print(self)
+
+            Elev.move()
 
     def __str__(self):
 
         floor_rep = ''
         for i in (self.floors_ls):
-            for j in (self.floor_ls):
+            for j in i:
                 floor_rep += j
             floor_rep += '\n'
 
@@ -68,7 +78,24 @@ class Building:
 
 
 class Elevator:
-    pass
+
+    def __init__(self, floors, current_floor=0, up=1):
+
+        self.current_floor = current_floor
+        self.floors = floors
+        self.up = up
+
+    def move(self):
+
+        if self.current_floor == (self.floors - 1):
+            self.up = 0
+        elif self.current_floor == 0:
+            self.up = 1
+
+        if self.up == 1:
+            self.current_floor += 1
+        if self.up == 0:
+            self.current_floor -= 1
 
 
 class Customer:
