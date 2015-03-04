@@ -40,12 +40,18 @@ class Building:
         self.customers = customers
         self.floor_ls = floor_ls
         self.floors_ls = floors_ls
-        for i in range(10):
-            floor_ls.append('*')
-        for i in range(10):
-            floor_ls.append('_')
+        # for i in range(10):
+        #     floor_ls.append('*')
+        # for i in range(10):
+        #     floor_ls.append('_')
+
+    def run(self):
+
         for i in range(self.floors):
+            self.floor_ls = ['*']*10 + ['_']*10
             self.floors_ls.append(self.floor_ls)
+
+        print(self)
 
     def __str__(self):
 
@@ -75,7 +81,7 @@ def main():
     customers = int(input('Please input the number of customers: '))
 
     build = Building(floors, customers)
-    print(build)
+    build.run()
 
 if __name__ == '__main__':
     main()
