@@ -31,6 +31,8 @@ PROJECT DESCRIPTION / SPECIFICATION:
 
 '''
 
+import random
+
 
 class Building:
 
@@ -52,11 +54,18 @@ class Building:
 
             for i in range(self.floors):
 
+                cpf_rand = random.randint(0, self.customers)
+                self.customers -= cpf_rand
+
+                for j in range(cpf_rand):
+
+                    C = Customer()
+
                 if i == Elev.current_floor:
-                    self.floor_ls = ['e']*10 + ['_']*10
+                    self.floor_ls = ['e']*10 + ['c']*(cpf_rand) + ['_']*(10 - cpf_rand)
                     self.floors_ls.append(self.floor_ls)
                 else:
-                    self.floor_ls = ['*']*10 + ['_']*10
+                    self.floor_ls = ['*']*10 + ['c']*(cpf_rand) + ['_']*(10 - cpf_rand)
                     self.floors_ls.append(self.floor_ls)
 
             print(self)
@@ -99,7 +108,10 @@ class Elevator:
 
 
 class Customer:
-    pass
+
+    def __init__(self):
+
+        pass
 
 
 def main():
