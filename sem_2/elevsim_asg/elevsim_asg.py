@@ -36,10 +36,11 @@ import random
 
 class Building:
 
-    def __init__(self, floors, customers, floor_ls=[], floors_ls=[]):
+    def __init__(self, floors, customers, customers_ls=[], floor_ls=[], floors_ls=[]):
 
         self.floors = floors
         self.customers = customers
+        self.customers_ls = customers_ls
         self.floor_ls = floor_ls
         self.floors_ls = floors_ls
 
@@ -47,11 +48,19 @@ class Building:
 
         Elev = Elevator(self.floors)
         cnt = 0
+        customer_cnt = 0
+        self.customers_ls = []
+        customer_obj_ls = []
 
-        while self.customers > 10:
+        for i in range(self.customers):
 
-            cpf_rand = random.randint(0, 10)
-            self.customers -= cpf_rand
+            x = str('C' + str(i))
+            self.customers_ls.append(x)
+
+        for i in range(self.customers):
+
+            i = Customer(i, self.floors)
+            customer_obj_ls.append(i)
 
         while cnt <= (self.floors + 20):
 
@@ -60,19 +69,19 @@ class Building:
 
             for i in range(self.floors):
 
-                cpf_rand = random.randint(0, 10)
-                self.customers -= cpf_rand
-
-                for j in range(cpf_rand):
-
-                    C = Customer()
-
                 if i == Elev.current_floor:
-                    self.floor_ls = ['e']*10 + ['c']*(cpf_rand) + ['_']*(10 - cpf_rand)
-                    self.floors_ls.append(self.floor_ls)
+                    self.floor_ls = ['eee ']*10 + ['___ ']*(10)
                 else:
-                    self.floor_ls = ['*']*10 + ['c']*(cpf_rand) + ['_']*(10 - cpf_rand)
-                    self.floors_ls.append(self.floor_ls)
+                    self.floor_ls = ['*** ']*10 + ['___ ']*(10)
+
+                for j in customer_obj_ls:
+
+                    if j.current_floor == i:
+
+                        self.floor_ls.remove('___ ')
+                        self.floor_ls.insert(10, j.name)
+
+                self.floors_ls.append(self.floor_ls)
 
             print(self)
 
@@ -115,9 +124,17 @@ class Elevator:
 
 class Customer:
 
-    def __init__(self, name):
+    def __init__(self, i, floors, name='', current_floor=0):
 
+        self.i = i
         self.name = name
+        self.floors = floors
+        self.current_floor = random.randint(0, floors)
+
+        if self.i < 10:
+            self.name = str('C' + '0' + str(i) + ' ')
+        else:
+            self.name = str('C' + str(i) + ' ')
 
     def __str__(self):
 
