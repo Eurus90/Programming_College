@@ -51,6 +51,9 @@ class Building:
         customer_cnt = 0
         self.customers_ls = []
         customer_obj_ls = []
+        flr_sz = 0
+        flr_sz_cnt = {}
+        cus_on_des_flr = []
 
         for i in range(self.customers):
 
@@ -62,38 +65,126 @@ class Building:
             i = Customer(i, self.floors)
             customer_obj_ls.append(i)
 
-        while cnt <= (self.floors + 20):
+        for i in customer_obj_ls:
+
+            if i.des_floor in flr_sz_cnt:
+                flr_sz_cnt[i.des_floor] += 1
+            else:
+                flr_sz_cnt[i.des_floor] = 1
+            if i.current_floor in flr_sz_cnt:
+                flr_sz_cnt[i.current_floor] += 1
+            else:
+                flr_sz_cnt[i.current_floor] = 1
+
+        for i in flr_sz_cnt:
+
+            if flr_sz < flr_sz_cnt[i]:
+                flr_sz = flr_sz_cnt[i]
+
+        while len(cus_on_des_flr) < (self.customers):
 
             cnt += 1
             self.floors_ls = []
 
-            for i in range(self.floors):
+            if cnt <= 1:
 
-                if i == Elev.current_floor:
-                    self.floor_ls = ['eee ']*10 + ['___ ']*(10)
-                else:
-                    self.floor_ls = ['*** ']*10 + ['___ ']*(10)
+                for i in range(self.floors):
 
-                for j in customer_obj_ls:
+                    if i == Elev.current_floor:
+                        self.floor_ls = ['[E] ']*(flr_sz*2) + ['___ ']*(flr_sz*2)
+                    else:
+                        self.floor_ls = ['[ ] ']*(flr_sz*2) + ['___ ']*(flr_sz*2)
 
-                    if j.current_floor == i:
+                    for j in customer_obj_ls:
 
-                        self.floor_ls.remove('___ ')
-                        self.floor_ls.insert(10, j.name)
+                        if j.current_floor == i:
 
-                self.floors_ls.append(self.floor_ls)
+                            self.floor_ls.remove('___ ')
+                            self.floor_ls.insert((flr_sz*2), j.name)
+
+                    self.floors_ls.append(self.floor_ls)
+
+            else:
+
+                for i in range(self.floors):
+
+                    if i == Elev.current_floor:
+                        self.floor_ls = ['[E] ']*(flr_sz*2) + ['___ ']*(flr_sz*2)
+                    else:
+                        self.floor_ls = ['[ ] ']*(flr_sz*2) + ['___ ']*(flr_sz*2)
+
+                    for j in customer_obj_ls:
+
+                        if (j.current_floor == i) and (i != Elev.current_floor) and (j.on_elev == 0):
+
+                            try:
+
+                                self.floor_ls.remove('___ ')
+                                self.floor_ls.insert((flr_sz*2), j.name)
+
+                            except ValueError:
+
+                                self.floor_ls.append(j.name)
+
+                        elif (j.current_floor == i) and (i == Elev.current_floor) and (j.on_elev == 0) and (j.des_floor == i):
+
+                            try:
+
+                                self.floor_ls.remove('___ ')
+                                self.floor_ls.insert((flr_sz*2), j.name)
+
+                            except ValueError:
+
+                                self.floor_ls.append(j.name)
+
+                        elif (j.current_floor == i) and (j.des_floor != i) and (i == Elev.current_floor):
+
+                            try:
+
+                                j.on_elev = 1
+                                j.move_cus()
+
+                                self.floor_ls.remove('[E] ')
+                                self.floor_ls.insert(0, j.name)
+
+                            except ValueError:
+
+                                try:
+
+                                    self.floor_ls.remove('___ ')
+                                    self.floor_ls.insert((flr_sz*2), j.name)
+
+                                except ValueError:
+
+                                    self.floor_ls.append(j.name)
+
+                        elif (j.current_floor == i) and (j.des_floor == i) and (i == Elev.current_floor) and (j.on_elev == 1):
+
+                            try:
+
+                                j.on_des_floor = 1
+                                cus_on_des_flr.append(1)
+                                j.on_elev = 0
+                                self.floor_ls.remove('___ ')
+                                self.floor_ls.insert((flr_sz*2), j.name)
+
+                            except ValueError:
+
+                                self.floor_ls.append(j.name)
+
+                    self.floors_ls.append(self.floor_ls)
+
+                Elev.move()
 
             print(self)
 
-            Elev.move()
-
     def __str__(self):
 
-        floor_rep = ''
+        floor_rep = '\n\n'
         for i in (self.floors_ls):
             for j in i:
                 floor_rep += j
-            floor_rep += '\n'
+            floor_rep += '\n\n'
 
         return floor_rep
 
@@ -124,17 +215,36 @@ class Elevator:
 
 class Customer:
 
-    def __init__(self, i, floors, name='', current_floor=0):
+    def __init__(self, i, floors, name='', current_floor=0, des_floor=0, on_elev=0, on_des_floor=0, up=1):
 
         self.i = i
         self.name = name
         self.floors = floors
-        self.current_floor = random.randint(0, floors)
+        self.current_floor = random.randint(0, (floors - 1))
+        self.des_floor = random.randint(0, (floors - 1))
+        self.on_elev = on_elev
+        self.on_des_floor = on_des_floor
+        self.up = up
+
+        while self.current_floor == self.des_floor:
+            self.des_floor = random.randint(0, (floors - 1))
 
         if self.i < 10:
-            self.name = str('C' + '0' + str(i) + ' ')
+            self.name = str('c' + '0' + str(i) + ' ')
         else:
-            self.name = str('C' + str(i) + ' ')
+            self.name = str('c' + str(i) + ' ')
+
+    def move_cus(self):
+
+        if self.current_floor == (self.floors - 1):
+            self.up = 0
+        elif self.current_floor == 0:
+            self.up = 1
+
+        if self.up == 1:
+            self.current_floor += 1
+        if self.up == 0:
+            self.current_floor -= 1
 
     def __str__(self):
 
